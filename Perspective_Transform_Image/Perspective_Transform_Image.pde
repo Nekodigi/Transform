@@ -1,4 +1,4 @@
-float scale = 1000;
+float scale = 500;
 int gridNum = 10;
 float tEPS = EPSILON*10*scale;//transform EPSILON
 float cpR = 20;//control point radius
@@ -16,11 +16,11 @@ PImage img;
 boolean render = false;
 
 void setup(){
-  fullScreen();
-  //size(1400, 700);
+  //fullScreen();
+  size(1920, 1080);
   img = loadImage("FevCat.png");
-  xx = range(img.width);
-  yy = range(img.height);
+  xx = range(img.width+1);
+  yy = range(img.height+1);
   r = new float[xx.length][yy.length];
   g = new float[xx.length][yy.length];
   b = new float[xx.length][yy.length];
@@ -101,7 +101,7 @@ void draw(){
       pControl.update();
     }
   }
-  println(frameRate);
+  //println(frameRate);
 }
 
 void keyPressed(){

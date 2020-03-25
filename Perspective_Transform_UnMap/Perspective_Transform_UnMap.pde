@@ -1,4 +1,4 @@
-float scale = 1000;
+float scale = 500;
 int gridNum = 10;
 float cpR = 10;//control point radius
 PVector[] toR = {new PVector(0, 0), new PVector(1, 0.1), new PVector(0.8, 0.5), new PVector(0, 1)};//corner of rectangle
@@ -8,8 +8,8 @@ float[] Ainv;
 ArrayList<PControl> pControls = new ArrayList<PControl>();
 
 void setup(){
-  fullScreen();
-  //size(1400, 700);
+  //fullScreen();
+  size(1920, 1080);
   strokeWeight(10);
   A = solve(fromR, toR);
   for(int i = 0; i < 4; i++){
