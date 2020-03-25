@@ -7,11 +7,7 @@ PVector[] fromR = {new PVector(0, 0), new PVector(scale, 0), new PVector(scale, 
 float[] A;
 float[] Ainv;
 ArrayList<PControl> pControls = new ArrayList<PControl>();
-float[] xx;
-float[] yy;
-float[][] r;
-float[][] g;
-float[][] b;
+Bicubic bicubic;
 PImage img;
 boolean render = false;
 
@@ -19,18 +15,7 @@ void setup(){
   //fullScreen();
   size(1920, 1080);
   img = loadImage("FevCat.png");
-  xx = range(img.width+1);
-  yy = range(img.height+1);
-  r = new float[xx.length][yy.length];
-  g = new float[xx.length][yy.length];
-  b = new float[xx.length][yy.length];
-  for (int i = 0; i < xx.length; i++) {
-    for (int j = 0; j < yy.length; j++) {
-      r[i][j] = red(img.get(i, j));
-      g[i][j] = green(img.get(i, j));
-      b[i][j] = blue(img.get(i, j));
-    }
-  }
+  bicubic = new Bicubic(img);
   strokeWeight(10);
   A = solve(fromR, toR);
   for(int i = 0; i < 4; i++){
@@ -46,12 +31,6 @@ void draw(){
   A = solve(fromR, toR);
   Ainv = solve(toR, fromR);
   noStroke();
-  for (int i = 0; i < xx.length; i++) {
-    for (int j = 0; j < yy.length; j++) {
-      //fill(r[i][j], g[i][j], b[i][j]);
-      //rect(i, j, 1, 1);
-    }
-  }
   //show base grid
   fill(0);
   for(PVector p : fromR){
@@ -88,7 +67,7 @@ void draw(){
       if(isInTriangle(new PVector(x, y), toR[0], toR[1], toR[2]) || isInTriangle(new PVector(x, y), toR[0], toR[2], toR[3])){
         PVector p2 = transform(new PVector(x, y), Ainv);
         if(p2.x > tEPS && p2.x < scale-tEPS && p2.y > tEPS && p2.y < scale-tEPS){
-          fill(bicubic(xx, yy, r, p2.x, p2.y), bicubic(xx, yy, g, p2.x, p2.y), bicubic(xx, yy, b, p2.x, p2.y));
+          fill(bicubic.colorAt(p2.x, p2.y));
           rect(p2.x, p2.y, tileS, tileS);
         }
         rect(x, y, tileS, tileS);
